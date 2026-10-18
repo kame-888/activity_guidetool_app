@@ -3,7 +3,9 @@ class ActivitiesController < ApplicationController
   before_action :set_activity, only: %i[show edit update destroy]
 
   def index
-    @activities = Activity.order(:id)
+    @q = Activity.ransack(params[:q])
+    @activities = @q.result(distinct: true).order(:id).page(params[:page]).per(10)
+    @favorite_ids = current_user.favorite_activity_ids
   end
 
   def show
