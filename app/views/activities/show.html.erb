@@ -4,15 +4,26 @@
   所要時間 <%= @activity.duration_minutes %>分
 </p>
 
-<h2 class="h5 mt-4">開催枠</h2>
-<ul>
+<div class="d-flex justify-content-between align-items-center mt-4">
+  <h2 class="h5 mb-0">開催枠</h2>
+  <% if current_user.manager? %>
+    <%= link_to "開催枠を追加", new_activity_time_slot_path(@activity), class: "btn btn-sm btn-primary" %>
+  <% end %>
+</div>
+
+<div class="list-group mt-2">
   <% @time_slots.each do |slot| %>
-    <li><%= l slot.starts_at, format: :short %> 〜 <%= l slot.ends_at, format: :short %></li>
+    <%= link_to time_slot_path(slot), class: "list-group-item list-group-item-action d-flex justify-content-between" do %>
+      <span><%= l slot.starts_at, format: :short %> 〜 <%= l slot.ends_at, format: :short %></span>
+      <span class="badge <%= slot.cancelled? ? 'bg-danger' : 'bg-success' %>">
+        <%= TimeSlot.human_attribute_name("status.#{slot.status}") %>
+      </span>
+    <% end %>
   <% end %>
   <% if @time_slots.empty? %>
-    <li class="text-muted">開催枠はまだありません</li>
+    <div class="list-group-item text-muted">開催枠はまだありません</div>
   <% end %>
-</ul>
+</div>
 
 <% if current_user.manager? %>
   <div class="d-flex gap-2 mt-4">
