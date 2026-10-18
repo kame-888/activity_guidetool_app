@@ -6,5 +6,8 @@ class User < ApplicationRecord
 
   has_one_attached :avatar
 
+  has_many :favorites, dependent: :destroy
+  has_many :favorite_activities, through: :favorites, source: :activity
+
   enum :role, { guide: 0, manager: 1 }
 end
