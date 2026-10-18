@@ -1,0 +1,25 @@
+<h1 class="h3"><%= @activity.title %></h1>
+<p>
+  <span class="badge bg-secondary"><%= Activity.human_attribute_name("genre.#{@activity.genre}") %></span>
+  所要時間 <%= @activity.duration_minutes %>分
+</p>
+
+<h2 class="h5 mt-4">開催枠</h2>
+<ul>
+  <% @time_slots.each do |slot| %>
+    <li><%= l slot.starts_at, format: :short %> 〜 <%= l slot.ends_at, format: :short %></li>
+  <% end %>
+  <% if @time_slots.empty? %>
+    <li class="text-muted">開催枠はまだありません</li>
+  <% end %>
+</ul>
+
+<% if current_user.manager? %>
+  <div class="d-flex gap-2 mt-4">
+    <%= link_to "編集", edit_activity_path(@activity), class: "btn btn-outline-primary" %>
+    <%= button_to "削除", @activity, method: :delete,
+          class: "btn btn-outline-danger",
+          form: { data: { turbo_confirm: "本当に削除しますか?" } } %>
+  </div>
+<% end %>
+<%= link_to "一覧へ戻る", activities_path, class: "d-block mt-3" %>
