@@ -17,3 +17,13 @@ ja:
           scheduled: 予定
           cancelled: 中止
         memo: メモ
+      participant:
+        name: 氏名
+        age: 年齢
+        caution_detail: 注意事項の内容
+        caution_category:
+          none: なし
+          allergy: アレルギー
+          medical: 持病・健康上の注意
+          mobility: 身体面の配慮
+          other: その他
