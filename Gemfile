@@ -39,8 +39,6 @@ gem "rails-i18n"
 # Use Bootstrap
 gem "bootstrap", "~> 5.3.2"
 
-gem "jquery-rails"
-
 gem "sassc-rails"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
