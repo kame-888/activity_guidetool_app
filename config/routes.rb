@@ -6,7 +6,9 @@ Rails.application.routes.draw do
     resources :time_slots, except: %i[index show]
   end
 
-  resources :time_slots, only: :show
+  resources :time_slots, only: :show do
+    resources :participants, except: %i[index show]
+  end
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
