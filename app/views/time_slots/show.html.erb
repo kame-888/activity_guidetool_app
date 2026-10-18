@@ -1,0 +1,19 @@
+<h1 class="h3"><%= @activity.title %></h1>
+<p>
+  <%= l @time_slot.starts_at, format: :long %> 〜 <%= l @time_slot.ends_at, format: :short %>
+  <span class="badge bg-secondary"><%= TimeSlot.human_attribute_name("status.#{@time_slot.status}") %></span>
+</p>
+<%= simple_format(@time_slot.memo) %>
+
+<h2 class="h5 mt-4">参加者</h2>
+<p class="text-muted">(次のステップで追加します)</p>
+
+<% if current_user.manager? %>
+  <div class="d-flex gap-2 mt-4">
+    <%= link_to "編集", edit_activity_time_slot_path(@activity, @time_slot), class: "btn btn-outline-primary" %>
+    <%= button_to "削除", activity_time_slot_path(@activity, @time_slot), method: :delete,
+          class: "btn btn-outline-danger",
+          form: { data: { turbo_confirm: "この開催枠を削除しますか?" } } %>
+  </div>
+<% end %>
+<%= link_to "アクティビティへ戻る", @activity, class: "d-block mt-3" %>
