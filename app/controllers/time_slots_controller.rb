@@ -6,6 +6,7 @@ class TimeSlotsController < ApplicationController
 
   def show
     @activity = @time_slot.activity
+    @participants = @time_slot.participants.order(:id)
   end
 
   def new
