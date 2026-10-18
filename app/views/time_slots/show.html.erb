@@ -5,8 +5,42 @@
 </p>
 <%= simple_format(@time_slot.memo) %>
 
-<h2 class="h5 mt-4">参加者</h2>
-<p class="text-muted">(次のステップで追加します)</p>
+<div class="d-flex justify-content-between align-items-center mt-4">
+  <h2 class="h5 mb-0">参加者(<%= @participants.size %>名)</h2>
+  <% if current_user.manager? %>
+    <%= link_to "参加者を追加", new_time_slot_participant_path(@time_slot), class: "btn btn-sm btn-primary" %>
+  <% end %>
+</div>
+
+<div class="list-group mt-2">
+  <% @participants.each do |participant| %>
+    <div class="list-group-item">
+      <div class="d-flex justify-content-between align-items-start">
+        <div>
+          <strong><%= participant.name %></strong>
+          <% if participant.age %><span class="text-muted">(<%= participant.age %>歳)</span><% end %>
+          <% if participant.caution? %>
+            <span class="badge bg-danger ms-1">
+              <%= Participant.human_attribute_name("caution_category.#{participant.caution_category}") %>
+            </span>
+            <div class="small mt-1"><%= participant.caution_detail %></div>
+          <% end %>
+        </div>
+        <% if current_user.manager? %>
+          <div class="d-flex gap-1">
+            <%= link_to "編集", edit_time_slot_participant_path(@time_slot, participant), class: "btn btn-sm btn-outline-primary" %>
+            <%= button_to "削除", time_slot_participant_path(@time_slot, participant), method: :delete,
+                  class: "btn btn-sm btn-outline-danger",
+                  form: { data: { turbo_confirm: "この参加者を削除しますか?" } } %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+  <% if @participants.empty? %>
+    <div class="list-group-item text-muted">参加者はまだ登録されていません</div>
+  <% end %>
+</div>
 
 <% if current_user.manager? %>
   <div class="d-flex gap-2 mt-4">
