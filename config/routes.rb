@@ -4,7 +4,10 @@ Rails.application.routes.draw do
 
   resources :activities do
     resources :time_slots, except: %i[index show]
+    resource :favorite, only: %i[create destroy]
   end
+
+  resources :favorites, only: :index
 
   resources :time_slots, only: :show do
     resources :participants, except: %i[index show]
