@@ -1,4 +1,3 @@
-# app/models/participant.rb
 class Participant < ApplicationRecord
   enum :caution_category,
        { none: 0, allergy: 1, medical: 2, mobility: 3, other: 4 },
