@@ -22,4 +22,8 @@ class TimeSlot < ApplicationRecord
 
     errors.add(:ends_at, "は開始時刻より後にしてください") if ends_at <= starts_at
   end
+
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[starts_at status]
+  end
 end

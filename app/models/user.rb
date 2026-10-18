@@ -10,4 +10,18 @@ class User < ApplicationRecord
   has_many :favorite_activities, through: :favorites, source: :activity
 
   enum :role, { guide: 0, manager: 1 }
+
+  def full_name
+    "#{last_name} #{first_name}"
+  end
+
+  private
+
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[title genre]
+  end
+
+  def self.ransackable_associations(_auth_object = nil)
+    %w[time_slots]
+  end
 end
