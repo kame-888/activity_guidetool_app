@@ -1,0 +1,12 @@
+# config/locales/ja.yml
+ja:
+  activerecord:
+    models:
+      activity: アクティビティ
+    attributes:
+      activity:
+        title: タイトル
+        duration_minutes: 所要時間
+        description: 説明
+        genre/outdoor: アウトドア
+        genre/craft: クラフト
