@@ -10,3 +10,10 @@ ja:
         description: 説明
         genre/outdoor: アウトドア
         genre/craft: クラフト
+      time_slot:
+        starts_at: 開始日時
+        ends_at: 終了日時
+        status:
+          scheduled: 予定
+          cancelled: 中止
+        memo: メモ
