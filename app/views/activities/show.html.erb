@@ -1,4 +1,5 @@
 <h1 class="h3"><%= @activity.title %></h1>
+<%= render "favorites/button", activity: @activity, favorited: current_user.favorite_activities.exists?(@activity.id) %>
 <p>
   <span class="badge bg-secondary"><%= Activity.human_attribute_name("genre.#{@activity.genre}") %></span>
   所要時間 <%= @activity.duration_minutes %>分
