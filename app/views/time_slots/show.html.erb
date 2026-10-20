@@ -14,7 +14,7 @@
 
 <div class="list-group mt-2">
   <% @participants.each do |participant| %>
-    <div class="list-group-item">
+    <div class="list-group-item <%= 'border-start border-danger border-4' if participant.caution? %>">
       <div class="d-flex justify-content-between align-items-start">
         <div>
           <strong><%= participant.name %></strong>

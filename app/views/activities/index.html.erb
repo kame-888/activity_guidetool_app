@@ -1,28 +1,32 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
-  <h1 class="h3 mb-0">アクティビティ一覧</h1>
+  <div>
+    <h1 class="h3 mb-1">アクティビティ一覧</h1>
+    <p class="text-muted small mb-0">開催枠を選んで、参加者と注意事項を確認できます</p>
+  </div>
   <% if current_user.manager? %>
     <%= link_to "新規登録", new_activity_path, class: "btn btn-primary" %>
   <% end %>
 </div>
 
-<%= search_form_for @q, url: activities_path, class: "row g-2 mb-4" do |f| %>
-  <div class="col-12 col-md-4">
-    <%= f.search_field :title_cont, placeholder: "タイトル", class: "form-control" %>
-  </div>
-  <div class="col-6 col-md-3">
-    <%= f.select :genre_eq,
-          Activity.genres.map { |key, value| [Activity.human_attribute_name("genre.#{key}"), value] },
-          { include_blank: "ジャンル(すべて)" }, class: "form-select" %>
-  </div>
-  <div class="col-6 col-md-3">
-    <%= f.date_field :time_slots_starts_at_gteq, class: "form-control" %>
-  </div>
-  <div class="col-12 col-md-2 d-flex gap-1">
-    <%= f.submit "検索", class: "btn btn-primary" %>
-    <%= link_to "クリア", activities_path, class: "btn btn-outline-secondary" %>
-  </div>
-<% end %>
-
+<div class="card card-body bg-light border-0 mb-4">
+  <%= search_form_for @q, url: activities_path, class: "row g-2 mb-4" do |f| %>
+    <div class="col-12 col-md-4">
+      <%= f.search_field :title_cont, placeholder: "タイトル", class: "form-control" %>
+    </div>
+    <div class="col-6 col-md-3">
+      <%= f.select :genre_eq,
+            Activity.genres.map { |key, value| [Activity.human_attribute_name("genre.#{key}"), value] },
+            { include_blank: "ジャンル(すべて)" }, class: "form-select" %>
+    </div>
+    <div class="col-6 col-md-3">
+      <%= f.date_field :time_slots_starts_at_gteq, class: "form-control" %>
+    </div>
+    <div class="col-12 col-md-2 d-flex gap-1">
+      <%= f.submit "検索", class: "btn btn-primary" %>
+      <%= link_to "クリア", activities_path, class: "btn btn-outline-secondary" %>
+    </div>
+  <% end %>
+</div>
 <div class="list-group">
   <% @activities.each do |activity| %>
     <div class="list-group-item d-flex justify-content-between align-items-center">
