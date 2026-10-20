@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :activity do
-    title { "MyString" }
-    genre { 1 }
-    duration_minutes { 1 }
+    sequence(:title) { |n| "アクティビティ#{n}" }
+    genre { :outdoor }
+    duration_minutes { 90 }
   end
 end

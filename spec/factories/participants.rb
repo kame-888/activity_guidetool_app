@@ -1,9 +1,8 @@
 FactoryBot.define do
   factory :participant do
-    time_slot { nil }
-    name { "MyString" }
-    age { 1 }
-    caution_category { 1 }
-    caution_detail { "MyText" }
+    time_slot
+    name { "田中 花子" }
+    age { 30 }
+    caution_category { :none }
   end
 end
