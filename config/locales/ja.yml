@@ -27,3 +27,7 @@ ja:
           medical: 持病・健康上の注意
           mobility: 身体面の配慮
           other: その他
+      user:
+        role:
+          guide: ガイド
+          manager: 管理者
