@@ -10,6 +10,6 @@ class CreateTimeSlots < ActiveRecord::Migration[7.2]
       t.timestamps
     end
 
-    add_index :time_slots, [:activity_id, :starts_at]
+    add_index :time_slots, [ :activity_id, :starts_at ]
   end
 end

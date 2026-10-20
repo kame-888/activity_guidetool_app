@@ -34,17 +34,17 @@ activities = activities_data.map { |attrs| Activity.create!(attrs) }
 
 # --- 開催枠(今日から7日分、午前・午後の2枠) ---
 caution_samples = {
-  allergy:  ["えびアレルギー", "卵アレルギー", "そばアレルギー", "ナッツ類のアレルギー"],
-  medical:  ["喘息の持病あり", "心臓に持病あり(医師の許可済み)", "高所が苦手"],
-  mobility: ["膝に不安があり長距離歩行は避けたい", "階段の昇り降りに配慮が必要"],
-  other:    ["日本語が不慣れ(英語対応希望)", "小さなお子様連れ"]
+  allergy:  [ "えびアレルギー", "卵アレルギー", "そばアレルギー", "ナッツ類のアレルギー" ],
+  medical:  [ "喘息の持病あり", "心臓に持病あり(医師の許可済み)", "高所が苦手" ],
+  mobility: [ "膝に不安があり長距離歩行は避けたい", "階段の昇り降りに配慮が必要" ],
+  other:    [ "日本語が不慣れ(英語対応希望)", "小さなお子様連れ" ]
 }
 
 today = Time.zone.now.beginning_of_day
 
 activities.each do |activity|
   7.times do |day|
-    [9, 13].each do |hour|
+    [ 9, 13 ].each do |hour|
       slot = activity.time_slots.create!(
         starts_at: today + day.days + hour.hours,
         status: :scheduled
