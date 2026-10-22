@@ -7,10 +7,12 @@
 
       <% if user_signed_in? %>
         <div class="d-flex align-items-center gap-2">
-          <span class="text-white-50 small d-none d-sm-inline">
+          <%= link_to edit_user_registration_path,
+                class: "text-white-50 small text-decoration-none d-none d-sm-inline",
+                title: "ユーザー情報を編集" do %>
             <%= current_user.full_name %>
             <span class="badge bg-secondary ms-1"><%= User.human_attribute_name("role.#{current_user.role}") %></span>
-          </span>
+          <% end %>
           <%= link_to "お気に入り", favorites_path, class: "btn btn-outline-light btn-sm" %>
           <%= button_to "ログアウト", destroy_user_session_path, method: :delete,
                 class: "btn btn-light btn-sm" %>
