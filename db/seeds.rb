@@ -1,15 +1,25 @@
+if Rails.env.production?
+  if Activity.exists?
+    puts "既にデータがあるためseedsをスキップしました"
+    return
+  end
+else
+  Favorite.destroy_all
+  Participant.destroy_all
+  TimeSlot.destroy_all
+  Activity.destroy_all
+end
+
 Faker::Config.locale = :ja
 
-Favorite.destroy_all
-Participant.destroy_all
-TimeSlot.destroy_all
-Activity.destroy_all
+# 管理者のパスワードは環境変数で変更可能（未設定なら "password"）
+demo_password = ENV.fetch("SEED_PASSWORD", "password")
 
 # --- デモ用ユーザー ---
 manager = User.find_or_initialize_by(email: "manager@example.com")
 manager.assign_attributes(
   first_name: "太郎", last_name: "管理",
-  role: :manager, password: "password", password_confirmation: "password"
+  role: :manager, password: demo_password, password_confirmation: demo_password
 )
 manager.save!
 
