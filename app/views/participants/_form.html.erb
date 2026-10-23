@@ -1,0 +1,36 @@
+<%= form_with model: [time_slot, participant] do |f| %>
+  <% if participant.errors.any? %>
+    <div class="alert alert-danger">
+      <ul class="mb-0">
+        <% participant.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= f.label :name, "氏名", class: "form-label" %>
+    <%= f.text_field :name, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :age, "年齢", class: "form-label" %>
+    <%= f.number_field :age, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :caution_category, "注意事項の種類", class: "form-label" %>
+    <%= f.select :caution_category,
+          Participant.caution_categories.keys.map { |c| [Participant.human_attribute_name("caution_category.#{c}"), c] },
+          {}, class: "form-select" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :caution_detail, "注意事項の内容(アレルギー名・持病など)", class: "form-label" %>
+    <%= f.text_area :caution_detail, rows: 3, class: "form-control" %>
+  </div>
+
+  <%= f.submit "保存", class: "btn btn-primary" %>
+  <%= link_to "戻る", time_slot, class: "btn btn-outline-secondary" %>
+<% end %>
