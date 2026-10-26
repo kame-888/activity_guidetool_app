@@ -1,0 +1,23 @@
+@import "bootstrap";
+
+.hero {
+  position: relative;
+  min-height: 260px;
+  background-image: url("act_home.jpg");
+  background-size: cover;
+  background-position: center 60%;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+}

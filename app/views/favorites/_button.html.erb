@@ -1,0 +1,9 @@
+<div id="<%= dom_id(activity, :favorite) %>">
+  <% if favorited %>
+    <%= button_to "★ お気に入り解除", activity_favorite_path(activity), method: :delete,
+          class: "btn btn-sm btn-warning" %>
+  <% else %>
+    <%= button_to "☆ お気に入り", activity_favorite_path(activity), method: :post,
+          class: "btn btn-sm btn-outline-warning" %>
+  <% end %>
+</div>
