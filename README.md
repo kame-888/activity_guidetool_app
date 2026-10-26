@@ -8,8 +8,6 @@
 >
 > 公開期間：2027年1月頃まで（予定）。公開終了後も、このREADMEのスクリーンショットでご確認いただけます。
 
-![開催枠の詳細](docs/images/time_slot_show.png)
-
 ## デモ用アカウント
 
 実在の個人情報は一切使用していません。すべて Faker と固定文言で作成したダミーデータです。
@@ -42,7 +40,7 @@
 
 | ホーム | アクティビティの開催枠一覧 | 開催枠の詳細 | スマホ表示 |
 |---|---|---|---|
-| ![ホーム](assets/images/home.png) | ![開催枠一覧](assets/images/activity_show.png) | ![詳細](assets/images/timeslot_show.png) | ![スマホ](assets/images/phone_home.png) |
+| ![ホーム](app/assets/images/home.png) | ![開催枠一覧](app/assets/images/activity_show.png) | ![詳細](app/assets/images/timeslot_show.png) | ![スマホ](app/assets/images/phone_home.png) |
 
 ## 工夫した点
 
