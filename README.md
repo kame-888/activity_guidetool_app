@@ -42,7 +42,7 @@
 
 | ホーム | アクティビティの開催枠一覧 | 開催枠の詳細 | スマホ表示 |
 |---|---|---|---|
-| ![ホーム](docs/images/home.png) | ![開催枠一覧](docs/images/activity_show.png) | ![詳細](docs/images/timeslot_show.png) | ![スマホ](docs/images/phone_home.png) |
+| ![ホーム](assets/images/home.png) | ![開催枠一覧](assets/images/activity_show.png) | ![詳細](assets/images/timeslot_show.png) | ![スマホ](assets/images/phone_home.png) |
 
 ## 工夫した点
 
