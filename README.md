@@ -86,6 +86,7 @@ flowchart LR
 ```mermaid
 erDiagram
     users ||--o{ favorites : "お気に入り"
+    users |o--o{ activities : "担当ガイド"
     activities ||--o{ favorites : "登録される"
     activities ||--o{ time_slots : "開催枠"
     time_slots ||--o{ participants : "参加者"
@@ -102,6 +103,7 @@ erDiagram
         string title
         integer genre
         integer duration_minutes
+        bigint guide_id FK "担当ガイド(users、任意)"
     }
     time_slots {
         bigint id PK
