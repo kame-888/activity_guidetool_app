@@ -30,6 +30,13 @@ guide.assign_attributes(
 )
 guide.save!
 
+guide2 = User.find_or_initialize_by(email: "guide2@example.com")
+guide2.assign_attributes(
+  first_name: "次郎", last_name: "引率",
+  role: :guide, password: "password", password_confirmation: "password"
+)
+guide2.save!
+
 # --- アクティビティ ---
 activities_data = [
   { title: "シーカヤック体験",   genre: :outdoor, duration_minutes: 90 },
@@ -40,7 +47,11 @@ activities_data = [
   { title: "キャンドル作り",     genre: :craft,   duration_minutes: 45 }
 ]
 
-activities = activities_data.map { |attrs| Activity.create!(attrs) }
+# 担当ガイドを交互に割り当て、最後の1件は未割り当てにする
+activities = activities_data.each_with_index.map do |attrs, i|
+  assigned_guide = i == activities_data.size - 1 ? nil : [ guide, guide2 ][i % 2]
+  Activity.create!(attrs.merge(guide: assigned_guide))
+end
 
 # --- 開催枠(今日から7日分、午前・午後の2枠) ---
 caution_samples = {

@@ -8,6 +8,7 @@ ja:
         title: タイトル
         duration_minutes: 所要時間
         description: 説明
+        guide: 担当ガイド
         genre/outdoor: アウトドア
         genre/craft: クラフト
       time_slot:
