@@ -4,7 +4,8 @@ class ActivitiesController < ApplicationController
 
   def index
     @q = Activity.ransack(params[:q])
-    @activities = @q.result(distinct: true).order(:id).page(params[:page]).per(10)
+    @activities = @q.result(distinct: true).includes(:guide).order(:id).page(params[:page]).per(10)
+    @guides = User.guide.order(:last_name, :first_name)
     @favorite_ids = current_user.favorite_activity_ids
   end
 
@@ -50,6 +51,6 @@ class ActivitiesController < ApplicationController
   end
 
   def activity_params
-    params.require(:activity).permit(:title, :genre, :duration_minutes)
+    params.require(:activity).permit(:title, :genre, :duration_minutes, :guide_id)
   end
 end
