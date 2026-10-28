@@ -4,6 +4,7 @@
   <span class="badge bg-secondary"><%= Activity.human_attribute_name("genre.#{@activity.genre}") %></span>
   所要時間 <%= @activity.duration_minutes %>分
 </p>
+<p>担当ガイド：<%= @activity.guide&.full_name || "未割り当て" %></p>
 
 <div class="d-flex justify-content-between align-items-center mt-4">
   <h2 class="h5 mb-0">開催枠</h2>

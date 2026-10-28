@@ -8,6 +8,8 @@ class User < ApplicationRecord
 
   has_many :favorites, dependent: :destroy
   has_many :favorite_activities, through: :favorites, source: :activity
+  has_many :assigned_activities, class_name: "Activity", foreign_key: :guide_id,
+                                 inverse_of: :guide, dependent: :nullify
 
   enum :role, { guide: 0, manager: 1 }
 

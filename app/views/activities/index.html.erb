@@ -16,15 +16,19 @@
 
 <div class="card card-body bg-light border-0 mb-4">
   <%= search_form_for @q, url: activities_path, class: "row g-2 mb-4" do |f| %>
-    <div class="col-12 col-md-4">
+    <div class="col-12 col-md-3">
       <%= f.search_field :title_cont, placeholder: "タイトル", class: "form-control" %>
     </div>
-    <div class="col-6 col-md-3">
+    <div class="col-6 col-md-2">
       <%= f.select :genre_eq,
             Activity.genres.map { |key, value| [Activity.human_attribute_name("genre.#{key}"), value] },
             { include_blank: "ジャンル(すべて)" }, class: "form-select" %>
     </div>
-    <div class="col-6 col-md-3">
+    <div class="col-6 col-md-2">
+      <%= f.collection_select :guide_id_eq, @guides, :id, :full_name,
+            { include_blank: "担当ガイド(すべて)" }, class: "form-select" %>
+    </div>
+    <div class="col-12 col-md-3">
       <%= f.date_field :time_slots_starts_at_gteq, class: "form-control" %>
     </div>
     <div class="col-12 col-md-2 d-flex gap-1">
@@ -39,7 +43,11 @@
       <%= link_to activity, class: "text-decoration-none text-reset flex-grow-1" do %>
         <strong><%= activity.title %></strong>
         <span class="badge bg-secondary"><%= Activity.human_attribute_name("genre.#{activity.genre}") %></span>
-        <div><small class="text-muted">所要時間 <%= activity.duration_minutes %>分</small></div>
+        <div>
+          <small class="text-muted">
+            所要時間 <%= activity.duration_minutes %>分 / 担当 <%= activity.guide&.full_name || "未割り当て" %>
+          </small>
+        </div>
       <% end %>
       <%= render "favorites/button", activity: activity, favorited: @favorite_ids.include?(activity.id) %>
     </div>
