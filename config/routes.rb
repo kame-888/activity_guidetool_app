@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :favorites, only: :index
 
   resources :time_slots, only: :show do
+    get :mine, on: :collection
     resources :participants, except: %i[index show]
   end
 

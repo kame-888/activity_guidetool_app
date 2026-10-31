@@ -1,0 +1,26 @@
+<h1 class="h3 mb-1">自分の担当</h1>
+<p class="text-muted small mb-4">今日以降に担当する開催枠を、開始日時の早い順に表示しています</p>
+
+<div class="list-group">
+  <% @time_slots.each do |slot| %>
+    <%= link_to time_slot_path(slot), class: "list-group-item list-group-item-action d-flex justify-content-between align-items-center" do %>
+      <div>
+        <strong><%= slot.activity.title %></strong>
+        <div>
+          <small class="text-muted">
+            <%= l slot.starts_at, format: :short %> 〜 <%= l slot.ends_at, format: :short %>
+          </small>
+        </div>
+      </div>
+      <span class="badge <%= slot.cancelled? ? 'bg-danger' : 'bg-success' %>">
+        <%= TimeSlot.human_attribute_name("status.#{slot.status}") %>
+      </span>
+    <% end %>
+  <% end %>
+  <% if @time_slots.empty? %>
+    <div class="list-group-item text-muted">担当の開催枠はありません</div>
+  <% end %>
+</div>
+
+<div class="mt-3"><%= paginate @time_slots %></div>
+<%= link_to "一覧へ戻る", activities_path, class: "d-block mt-3" %>

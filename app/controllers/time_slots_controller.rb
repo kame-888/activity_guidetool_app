@@ -1,8 +1,14 @@
 # app/controllers/time_slots_controller.rb
 class TimeSlotsController < ApplicationController
-  before_action :require_manager!, except: :show
+  before_action :require_manager!, except: %i[show mine]
   before_action :set_activity, only: %i[new create]
   before_action :set_time_slot, only: %i[show edit update destroy]
+
+  def mine
+    @time_slots = current_user.assigned_time_slots.upcoming
+                              .includes(:activity).order(:starts_at)
+                              .page(params[:page]).per(20)
+  end
 
   def show
     @activity = @time_slot.activity
@@ -52,6 +58,6 @@ class TimeSlotsController < ApplicationController
   end
 
   def time_slot_params
-    params.require(:time_slot).permit(:starts_at, :ends_at, :status, :memo)
+    params.require(:time_slot).permit(:starts_at, :ends_at, :status, :memo, :guide_id)
   end
 end

@@ -8,12 +8,12 @@ ja:
         title: タイトル
         duration_minutes: 所要時間
         description: 説明
-        guide: 担当ガイド
         genre/outdoor: アウトドア
         genre/craft: クラフト
       time_slot:
         starts_at: 開始日時
         ends_at: 終了日時
+        guide: 担当ガイド
         status:
           scheduled: 予定
           cancelled: 中止
