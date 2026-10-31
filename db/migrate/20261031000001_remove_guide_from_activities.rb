@@ -1,7 +1,7 @@
 class RemoveGuideFromActivities < ActiveRecord::Migration[7.2]
   def up
     return unless column_exists?(:activities, :guide_id)
-    
+
     # 担当ガイドは開催枠単位に移行したため、未割り当ての枠にアクティビティの担当を引き継ぐ
     execute <<~SQL
       UPDATE time_slots
