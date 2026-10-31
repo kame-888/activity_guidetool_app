@@ -25,7 +25,7 @@
             { include_blank: "ジャンル(すべて)" }, class: "form-select" %>
     </div>
     <div class="col-6 col-md-2">
-      <%= f.collection_select :guide_id_eq, @guides, :id, :full_name,
+      <%= f.collection_select :time_slots_guide_id_eq, @guides, :id, :full_name,
             { include_blank: "担当ガイド(すべて)" }, class: "form-select" %>
     </div>
     <div class="col-12 col-md-3">
@@ -45,7 +45,7 @@
         <span class="badge bg-secondary"><%= Activity.human_attribute_name("genre.#{activity.genre}") %></span>
         <div>
           <small class="text-muted">
-            所要時間 <%= activity.duration_minutes %>分 / 担当 <%= activity.guide&.full_name || "未割り当て" %>
+            所要時間 <%= activity.duration_minutes %>分
           </small>
         </div>
       <% end %>

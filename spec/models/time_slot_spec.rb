@@ -19,5 +19,18 @@ RSpec.describe TimeSlot, type: :model do
     end
   end
 
+  describe "担当ガイド" do
+    it "ガイド以外のユーザーは割り当てられない" do
+      slot = build(:time_slot, guide: create(:user, :manager))
+
+      expect(slot).not_to be_valid
+      expect(slot.errors[:guide]).to be_present
+    end
+
+    it "未割り当てでも有効" do
+      expect(build(:time_slot, guide: nil)).to be_valid
+    end
+  end
+
   it { is_expected.to validate_presence_of(:starts_at) }
 end

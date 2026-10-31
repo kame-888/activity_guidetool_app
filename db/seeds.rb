@@ -47,11 +47,7 @@ activities_data = [
   { title: "キャンドル作り",     genre: :craft,   duration_minutes: 45 }
 ]
 
-# 担当ガイドを交互に割り当て、最後の1件は未割り当てにする
-activities = activities_data.each_with_index.map do |attrs, i|
-  assigned_guide = i == activities_data.size - 1 ? nil : [ guide, guide2 ][i % 2]
-  Activity.create!(attrs.merge(guide: assigned_guide))
-end
+activities = activities_data.map { |attrs| Activity.create!(attrs) }
 
 # --- 開催枠(今日から7日分、午前・午後の2枠) ---
 caution_samples = {
@@ -63,12 +59,14 @@ caution_samples = {
 
 today = Time.zone.now.beginning_of_day
 
-activities.each do |activity|
+# 担当ガイドは午前・午後で交互に割り当て、最後のアクティビティの枠は未割り当てにする
+activities.each_with_index do |activity, i|
   7.times do |day|
-    [ 9, 13 ].each do |hour|
+    [ 9, 13 ].each_with_index do |hour, j|
       slot = activity.time_slots.create!(
         starts_at: today + day.days + hour.hours,
-        status: :scheduled
+        status: :scheduled,
+        guide: i == activities.size - 1 ? nil : [ guide, guide2 ][(i + j) % 2]
       )
 
       # 参加者(1行=1人)を2〜6人

@@ -29,6 +29,7 @@
             </span>
           <% end %>
 
+          <%= link_to "自分の担当", mine_time_slots_path, class: "btn btn-outline-light btn-sm" %>
           <%= link_to "お気に入り", favorites_path, class: "btn btn-outline-light btn-sm" %>
           <%= button_to "ログアウト", destroy_user_session_path, method: :delete,
               class: "btn btn-light btn-sm" %>

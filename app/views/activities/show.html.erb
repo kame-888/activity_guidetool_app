@@ -4,7 +4,6 @@
   <span class="badge bg-secondary"><%= Activity.human_attribute_name("genre.#{@activity.genre}") %></span>
   所要時間 <%= @activity.duration_minutes %>分
 </p>
-<p>担当ガイド：<%= @activity.guide&.full_name || "未割り当て" %></p>
 
 <div class="d-flex justify-content-between align-items-center mt-4">
   <h2 class="h5 mb-0">開催枠</h2>
@@ -16,7 +15,10 @@
 <div class="list-group mt-2">
   <% @time_slots.each do |slot| %>
     <%= link_to time_slot_path(slot), class: "list-group-item list-group-item-action d-flex justify-content-between" do %>
-      <span><%= l slot.starts_at, format: :short %> 〜 <%= l slot.ends_at, format: :short %></span>
+      <span>
+        <%= l slot.starts_at, format: :short %> 〜 <%= l slot.ends_at, format: :short %>
+        <small class="text-muted ms-2">担当 <%= slot.guide&.full_name || "未割り当て" %></small>
+      </span>
       <span class="badge <%= slot.cancelled? ? 'bg-danger' : 'bg-success' %>">
         <%= TimeSlot.human_attribute_name("status.#{slot.status}") %>
       </span>
