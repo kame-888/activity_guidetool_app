@@ -39,10 +39,11 @@
 - スマホ対応のレスポンシブデザイン
 - アクティビティごとの担当ガイドの設定・表示
 - 開催枠ごとの担当ガイドの割り当てと、自分の担当枠だけを表示する「自分の担当」ページ
+- 開催枠のカレンダー表示(注意事項ありの枠を色分け)
 
 | ホーム | アクティビティの開催枠一覧 | 開催枠の詳細 | スマホ表示 |
 |---|---|---|---|
-| ![ホーム](app/assets/images/home.png) | ![開催枠一覧](app/assets/images/activity_show.png) | ![詳細](app/assets/images/timeslot_show.png) | ![スマホ](app/assets/images/phone_home.png) |
+| ![ホーム](app/assets/images/home.png) | ![開催枠一覧](app/assets/images/activity_show.png) | ![詳細](app/assets/images/timeslot_show.png) | ![カレンダー](app/assets/images/calendars.png) | ![スマホホーム](app/assets/images/phone_home.png) | ![スマホカレンダー](app/assets/images/phone_calendars.png) |
 
 ## 工夫した点
 
@@ -158,7 +159,6 @@ bundle exec rspec
 
 ## 今後の改善案
 
-- 開催枠のカレンダー表示(注意事項ありの枠を色分け)
 - 同じガイドの時間が重なる枠への割り当て警告
 - 注意事項を複数登録できるようにする(`cautions` テーブルの分離)
 - 天候による催行判断の記録
