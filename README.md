@@ -41,8 +41,8 @@
 - 開催枠ごとの担当ガイドの割り当てと、自分の担当枠だけを表示する「自分の担当」ページ
 - 開催枠のカレンダー表示(注意事項ありの枠を色分け)
 
-| ホーム | アクティビティの開催枠一覧 | 開催枠の詳細 | スマホ表示 |
-|---|---|---|---|
+| ホーム | アクティビティの開催枠一覧 | 開催枠の詳細 | カレンダー表示 | スマホホーム表示 | スマホカレンダー表示 |
+|---|---|---|---|---|---|
 | ![ホーム](app/assets/images/home.png) | ![開催枠一覧](app/assets/images/activity_show.png) | ![詳細](app/assets/images/timeslot_show.png) | ![カレンダー](app/assets/images/calendars.png) | ![スマホホーム](app/assets/images/phone_home.png) | ![スマホカレンダー](app/assets/images/phone_calendars.png) |
 
 ## 工夫した点
