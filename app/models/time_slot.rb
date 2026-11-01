@@ -4,6 +4,8 @@ class TimeSlot < ApplicationRecord
   belongs_to :activity
   has_many :participants, dependent: :destroy
 
+  scope :with_caution, -> { where(id: Participant.with_caution.select(:time_slot_id)) }
+
   before_validation :set_default_ends_at
 
   validates :starts_at, :ends_at, presence: true

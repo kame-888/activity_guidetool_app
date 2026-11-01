@@ -1,0 +1,68 @@
+<% content_for(:title, "開催枠カレンダー | ガイドツール") %>
+<% filter_params = @activity ? { activity_id: @activity.id } : {} %>
+
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+  <h1 class="h3 mb-0">開催枠カレンダー</h1>
+  <div class="btn-group" role="group" aria-label="月の切り替え">
+    <%= link_to "‹ 前月", calendar_path(filter_params.merge(month: calendar_month_param(@month.prev_month))), class: "btn btn-outline-secondary btn-sm" %>
+    <%= link_to "今月", calendar_path(filter_params), class: "btn btn-outline-secondary btn-sm" %>
+    <%= link_to "翌月 ›", calendar_path(filter_params.merge(month: calendar_month_param(@month.next_month))), class: "btn btn-outline-secondary btn-sm" %>
+  </div>
+</div>
+
+<%= form_with url: calendar_path, method: :get, class: "row g-2 align-items-center mb-3" do |f| %>
+  <%= f.hidden_field :month, value: calendar_month_param(@month) %>
+  <div class="col-8 col-md-4">
+    <%= f.collection_select :activity_id, @activities, :id, :title,
+          { include_blank: "アクティビティ(すべて)", selected: @activity&.id },
+          class: "form-select form-select-sm" %>
+  </div>
+  <div class="col-auto">
+    <%= f.submit "絞り込み", class: "btn btn-primary btn-sm", name: nil %>
+  </div>
+<% end %>
+
+<h2 class="h5 mb-2"><%= @month.year %>年<%= @month.month %>月</h2>
+
+<div class="d-flex flex-wrap gap-3 small mb-3">
+  <span><span class="calendar-legend calendar-slot--normal"></span>通常</span>
+  <span><span class="calendar-legend calendar-slot--caution"></span>注意事項のある参加者あり</span>
+  <span><span class="calendar-legend calendar-slot--cancelled"></span>中止</span>
+</div>
+
+<%# PC・タブレット: 月表示グリッド %>
+<div class="calendar d-none d-md-block">
+  <div class="calendar-grid calendar-grid--header">
+    <% CalendarsHelper::WEEKDAY_LABELS.each_with_index do |label, i| %>
+      <div class="calendar-weekday <%= 'text-danger' if i.zero? %> <%= 'text-primary' if i == 6 %>"><%= label %></div>
+    <% end %>
+  </div>
+  <div class="calendar-grid">
+    <% @dates.each do |date| %>
+      <div class="<%= calendar_day_class(date, @month) %>">
+        <div class="calendar-day-number"><%= date.day %></div>
+        <% Array(@slots_by_date[date]).each do |slot| %>
+          <%= render "calendars/slot", slot: slot, caution_count: @caution_counts[slot.id] %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<%# スマホ: 開催枠のある日だけをリスト表示 %>
+<div class="d-md-none">
+  <% month_dates = @dates.select { |d| d.month == @month.month && @slots_by_date[d].present? } %>
+  <% month_dates.each do |date| %>
+    <div class="mb-3">
+      <div class="fw-bold border-bottom mb-1 <%= 'text-danger' if date.sunday? %> <%= 'text-primary' if date.saturday? %>">
+        <%= date.month %>月<%= date.day %>日(<%= CalendarsHelper::WEEKDAY_LABELS[date.wday] %>)
+      </div>
+      <% @slots_by_date[date].each do |slot| %>
+        <%= render "calendars/slot", slot: slot, caution_count: @caution_counts[slot.id] %>
+      <% end %>
+    </div>
+  <% end %>
+  <% if month_dates.empty? %>
+    <p class="text-muted">この月の開催枠はありません</p>
+  <% end %>
+</div>

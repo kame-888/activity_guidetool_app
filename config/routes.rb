@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   end
 
   resources :favorites, only: :index
+  resource :calendar, only: :show
 
   resources :time_slots, only: :show do
     resources :participants, except: %i[index show]

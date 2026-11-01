@@ -1,0 +1,10 @@
+<%= link_to time_slot_path(slot), class: calendar_slot_class(slot, caution_count),
+      title: "#{slot.activity.title} #{l slot.starts_at, format: '%H:%M'}〜#{l slot.ends_at, format: '%H:%M'}" do %>
+  <span class="calendar-slot-time"><%= l slot.starts_at, format: "%H:%M" %></span>
+  <span class="calendar-slot-title"><%= slot.activity.title %></span>
+  <% if slot.cancelled? %>
+    <span class="calendar-slot-badge">中止</span>
+  <% elsif caution_count.to_i.positive? %>
+    <span class="calendar-slot-badge" aria-label="注意事項のある参加者 <%= caution_count %>名">⚠ <%= caution_count %></span>
+  <% end %>
+<% end %>

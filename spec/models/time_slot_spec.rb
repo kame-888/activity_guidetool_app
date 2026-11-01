@@ -20,4 +20,17 @@ RSpec.describe TimeSlot, type: :model do
   end
 
   it { is_expected.to validate_presence_of(:starts_at) }
+
+  describe ".with_caution" do
+    it "注意事項のある参加者がいる開催枠だけを返す" do
+      caution_slot = create(:time_slot)
+      create(:participant, time_slot: caution_slot, caution_category: :allergy, caution_detail: "卵")
+      create(:participant, time_slot: caution_slot)
+      normal_slot = create(:time_slot)
+      create(:participant, time_slot: normal_slot)
+      create(:time_slot) # 参加者なし
+
+      expect(TimeSlot.with_caution).to contain_exactly(caution_slot)
+    end
+  end
 end
