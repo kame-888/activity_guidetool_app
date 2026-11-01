@@ -5,6 +5,7 @@ class TimeSlot < ApplicationRecord
   belongs_to :guide, class_name: "User", optional: true
   has_many :participants, dependent: :destroy
 
+  scope :with_caution, -> { where(id: Participant.with_caution.select(:time_slot_id)) }
   scope :upcoming, -> { where(starts_at: Time.zone.now.beginning_of_day..) }
 
   before_validation :set_default_ends_at
@@ -12,6 +13,14 @@ class TimeSlot < ApplicationRecord
   validates :starts_at, :ends_at, presence: true
   validate :ends_at_after_starts_at
   validate :guide_must_have_guide_role
+
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[starts_at status guide_id]
+  end
+
+  def self.ransackable_associations(_auth_object = nil)
+    []
+  end
 
   private
 
@@ -31,9 +40,5 @@ class TimeSlot < ApplicationRecord
     return if guide.blank? || guide.guide?
 
     errors.add(:guide, "にはガイドのユーザーを選択してください")
-  end
-
-  def self.ransackable_attributes(_auth_object = nil)
-    %w[starts_at status guide_id]
   end
 end

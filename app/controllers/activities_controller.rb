@@ -4,7 +4,7 @@ class ActivitiesController < ApplicationController
 
   def index
     @q = Activity.ransack(params[:q])
-    @activities = @q.result(distinct: true).order(:id).page(params[:page]).per(10)
+    @activities = @q.result(distinct: true).includes(:guides).order(:id).page(params[:page]).per(10)
     @guides = User.guide.order(:last_name, :first_name)
     @favorite_ids = current_user.favorite_activity_ids
   end

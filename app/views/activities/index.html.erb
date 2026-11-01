@@ -45,7 +45,7 @@
         <span class="badge bg-secondary"><%= Activity.human_attribute_name("genre.#{activity.genre}") %></span>
         <div>
           <small class="text-muted">
-            所要時間 <%= activity.duration_minutes %>分
+            所要時間 <%= activity.duration_minutes %>分 / 担当 <%= activity.guides.map(&:full_name).presence&.join("、") || "未割り当て" %>
           </small>
         </div>
       <% end %>

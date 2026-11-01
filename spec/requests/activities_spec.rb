@@ -17,6 +17,19 @@ RSpec.describe "Activities", type: :request do
       expect { post activities_path, params: params }.to change(Activity, :count).by(1)
     end
   end
+
+  describe "GET /activities/:id" do
+    it "開催枠ごとの担当ガイドを表示する" do
+      guide = create(:user, last_name: "佐藤", first_name: "花子")
+      slot = create(:time_slot, guide: guide)
+      sign_in guide
+
+      get activity_path(slot.activity)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("佐藤 花子")
+    end
+  end
 end
 
 RSpec.describe "Activities search", type: :request do
@@ -29,6 +42,7 @@ RSpec.describe "Activities search", type: :request do
 
     get activities_path, params: { q: { time_slots_guide_id_eq: guide_a.id } }
 
+    expect(response).to have_http_status(:ok)
     expect(response.body).to include("佐藤さんの担当")
     expect(response.body).not_to include("鈴木さんの担当")
   end

@@ -37,6 +37,8 @@ guide2.assign_attributes(
 )
 guide2.save!
 
+guides = [ guide, guide2 ]
+
 # --- アクティビティ ---
 activities_data = [
   { title: "シーカヤック体験",   genre: :outdoor, duration_minutes: 90 },
@@ -59,14 +61,18 @@ caution_samples = {
 
 today = Time.zone.now.beginning_of_day
 
-# 担当ガイドは午前・午後で交互に割り当て、最後のアクティビティの枠は未割り当てにする
-activities.each_with_index do |activity, i|
+activities.each_with_index do |activity, activity_index|
   7.times do |day|
-    [ 9, 13 ].each_with_index do |hour, j|
+    [ 9, 13 ].each_with_index do |hour, hour_index|
+      # 同じ時刻に担当できるのは各ガイド1枠まで。時刻ごとに担当をずらし、残りは未割り当て
+      time_no = day * 2 + hour_index
+      position = (activity_index - time_no) % activities.size
+      slot_guide = guides[position] # 範囲外（2以上）は nil = 未割り当て
+
       slot = activity.time_slots.create!(
         starts_at: today + day.days + hour.hours,
         status: :scheduled,
-        guide: i == activities.size - 1 ? nil : [ guide, guide2 ][(i + j) % 2]
+        guide_id: slot_guide&.id
       )
 
       # 参加者(1行=1人)を2〜6人
@@ -98,4 +104,5 @@ Favorite.create!(user: guide, activity: activities.first)
 Favorite.create!(user: guide, activity: activities.third)
 
 puts "ユーザー#{User.count}件 / アクティビティ#{Activity.count}件 / " \
-     "開催枠#{TimeSlot.count}件 / 参加者#{Participant.count}件"
+     "開催枠#{TimeSlot.count}件(担当あり#{TimeSlot.where.not(guide_id: nil).count}件) / " \
+     "参加者#{Participant.count}件"

@@ -1,0 +1,15 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_PASSWORD: password
+  web:
+    image: myapp
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgres://postgres:password@db:5432/myapp_production
+      RAILS_MASTER_KEY: 51a46e9fa2528367de2c34a76600b4fa
+      RAILS_FORCE_SSL: "false"
+    depends_on:
+      - db

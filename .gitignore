@@ -37,4 +37,6 @@
 # Ignore the production test compose file.
 docker-compose.prod-test.yml
 
+cookie.txt
+paths.txt
 cleanup/

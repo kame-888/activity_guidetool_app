@@ -5,6 +5,8 @@ class Participant < ApplicationRecord
 
   belongs_to :time_slot
 
+  scope :with_caution, -> { where.not(caution_category: :none) }
+
   validates :name, presence: true
   validates :age, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, allow_nil: true
   validates :caution_detail, presence: true, unless: :caution_none?

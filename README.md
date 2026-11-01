@@ -37,11 +37,13 @@
 - 検索(タイトル・ジャンル・開催日)とページネーション
 - お気に入り(Turbo による画面遷移なしの切り替え)
 - スマホ対応のレスポンシブデザイン
+- アクティビティごとの担当ガイドの設定・表示
 - 開催枠ごとの担当ガイドの割り当てと、自分の担当枠だけを表示する「自分の担当」ページ
+- 開催枠のカレンダー表示(注意事項ありの枠を色分け)
 
-| ホーム | アクティビティの開催枠一覧 | 開催枠の詳細 | スマホ表示 |
-|---|---|---|---|
-| ![ホーム](app/assets/images/home.png) | ![開催枠一覧](app/assets/images/activity_show.png) | ![詳細](app/assets/images/timeslot_show.png) | ![スマホ](app/assets/images/phone_home.png) |
+| ホーム | アクティビティの開催枠一覧 | 開催枠の詳細 | カレンダー表示 | スマホホーム表示 | スマホカレンダー表示 |
+|---|---|---|---|---|---|
+| ![ホーム](app/assets/images/home.png) | ![開催枠一覧](app/assets/images/activity_show.png) | ![詳細](app/assets/images/timeslot_show.png) | ![カレンダー](app/assets/images/calendars.png) | ![スマホホーム](app/assets/images/phone_home.png) | ![スマホカレンダー](app/assets/images/phone_calendars.png) |
 
 ## 工夫した点
 
@@ -86,7 +88,7 @@ flowchart LR
 ```mermaid
 erDiagram
     users ||--o{ favorites : "お気に入り"
-    users ||--o{ time_slots : "担当"
+    users |o--o{ time_slots : "担当"
     activities ||--o{ favorites : "登録される"
     activities ||--o{ time_slots : "開催枠"
     time_slots ||--o{ participants : "参加者"
@@ -157,7 +159,6 @@ bundle exec rspec
 
 ## 今後の改善案
 
-- 開催枠のカレンダー表示(注意事項ありの枠を色分け)
 - 同じガイドの時間が重なる枠への割り当て警告
 - 注意事項を複数登録できるようにする(`cautions` テーブルの分離)
 - 天候による催行判断の記録
