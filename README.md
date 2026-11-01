@@ -88,7 +88,7 @@ flowchart LR
 ```mermaid
 erDiagram
     users ||--o{ favorites : "お気に入り"
-    users |o--o{ timeslots : "担当"
+    users |o--o{ time_slots : "担当"
     activities ||--o{ favorites : "登録される"
     activities ||--o{ time_slots : "開催枠"
     time_slots ||--o{ participants : "参加者"
