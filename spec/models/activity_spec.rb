@@ -1,20 +1,15 @@
 require "rails_helper"
 
 RSpec.describe Activity, type: :model do
-  describe "担当ガイド" do
-    it "未割り当てでも保存できる" do
-      expect(build(:activity, guide: nil)).to be_valid
-    end
+  describe "#guides" do
+    it "開催枠に割り当てられたガイドを重複なく返す" do
+      guide = create(:user, role: :guide)
+      activity = create(:activity)
+      create(:time_slot, activity: activity, guide: guide)
+      create(:time_slot, activity: activity, guide: guide, starts_at: Time.zone.local(2026, 11, 2, 10, 0))
+      create(:time_slot, activity: activity, guide: nil)
 
-    it "ガイドを割り当てられる" do
-      expect(build(:activity, guide: create(:user, role: :guide))).to be_valid
-    end
-
-    it "管理者は担当ガイドにできない" do
-      activity = build(:activity, guide: create(:user, :manager))
-
-      expect(activity).not_to be_valid
-      expect(activity.errors[:guide]).to be_present
+      expect(activity.guides).to contain_exactly(guide)
     end
   end
 end

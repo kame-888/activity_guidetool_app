@@ -2,6 +2,7 @@ class TimeSlot < ApplicationRecord
   enum :status, { scheduled: 0, cancelled: 1 }
 
   belongs_to :activity
+  belongs_to :guide, class_name: "User", optional: true
   has_many :participants, dependent: :destroy
 
   scope :with_caution, -> { where(id: Participant.with_caution.select(:time_slot_id)) }
@@ -10,6 +11,15 @@ class TimeSlot < ApplicationRecord
 
   validates :starts_at, :ends_at, presence: true
   validate :ends_at_after_starts_at
+  validate :guide_must_have_guide_role
+
+  def self.ransackable_attributes(_auth_object = nil)
+    %w[starts_at status guide_id]
+  end
+
+  def self.ransackable_associations(_auth_object = nil)
+    []
+  end
 
   private
 
@@ -25,7 +35,9 @@ class TimeSlot < ApplicationRecord
     errors.add(:ends_at, "は開始時刻より後にしてください") if ends_at <= starts_at
   end
 
-  def self.ransackable_attributes(_auth_object = nil)
-    %w[starts_at status]
+  def guide_must_have_guide_role
+    return if guide.blank? || guide.guide?
+
+    errors.add(:guide, "にはガイドのユーザーを選択してください")
   end
 end

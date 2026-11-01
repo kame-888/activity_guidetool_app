@@ -38,6 +38,7 @@
 - お気に入り(Turbo による画面遷移なしの切り替え)
 - スマホ対応のレスポンシブデザイン
 - アクティビティごとの担当ガイドの設定・表示
+- 開催枠ごとの担当ガイドの割り当てと、自分の担当枠だけを表示する「自分の担当」ページ
 
 | ホーム | アクティビティの開催枠一覧 | 開催枠の詳細 | スマホ表示 |
 |---|---|---|---|
@@ -86,7 +87,7 @@ flowchart LR
 ```mermaid
 erDiagram
     users ||--o{ favorites : "お気に入り"
-    users |o--o{ activities : "担当ガイド"
+    users |o--o{ timeslots : "担当"
     activities ||--o{ favorites : "登録される"
     activities ||--o{ time_slots : "開催枠"
     time_slots ||--o{ participants : "参加者"
@@ -103,11 +104,11 @@ erDiagram
         string title
         integer genre
         integer duration_minutes
-        bigint guide_id FK "担当ガイド(users、任意)"
     }
     time_slots {
         bigint id PK
         bigint activity_id FK
+        bigint guide_id FK
         datetime starts_at
         datetime ends_at
         integer status
@@ -157,7 +158,6 @@ bundle exec rspec
 
 ## 今後の改善案
 
-- 開催枠ごとの担当ガイド割り当て(自分の担当枠だけを表示)
 - 開催枠のカレンダー表示(注意事項ありの枠を色分け)
 - 同じガイドの時間が重なる枠への割り当て警告
 - 注意事項を複数登録できるようにする(`cautions` テーブルの分離)

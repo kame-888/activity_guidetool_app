@@ -1,5 +1,5 @@
 <%= link_to time_slot_path(slot), class: calendar_slot_class(slot, caution_count),
-      title: "#{slot.activity.title} #{l slot.starts_at, format: '%H:%M'}〜#{l slot.ends_at, format: '%H:%M'}" do %>
+      title: "#{slot.activity.title} #{l slot.starts_at, format: '%H:%M'}〜#{l slot.ends_at, format: '%H:%M'} 担当：#{slot.guide&.full_name || '未割り当て'}" do %>
   <span class="calendar-slot-time"><%= l slot.starts_at, format: "%H:%M" %></span>
   <span class="calendar-slot-title"><%= slot.activity.title %></span>
   <% if slot.cancelled? %>

@@ -34,3 +34,20 @@ RSpec.describe TimeSlot, type: :model do
     end
   end
 end
+
+RSpec.describe TimeSlot, "担当ガイド", type: :model do
+  it "未割り当てでも保存できる" do
+    expect(build(:time_slot, guide: nil)).to be_valid
+  end
+
+  it "ガイドを割り当てられる" do
+    expect(build(:time_slot, guide: create(:user, role: :guide))).to be_valid
+  end
+
+  it "管理者は担当ガイドにできない" do
+    slot = build(:time_slot, guide: create(:user, :manager))
+
+    expect(slot).not_to be_valid
+    expect(slot.errors[:guide]).to be_present
+  end
+end

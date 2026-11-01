@@ -52,6 +52,6 @@ class TimeSlotsController < ApplicationController
   end
 
   def time_slot_params
-    params.require(:time_slot).permit(:starts_at, :ends_at, :status, :memo)
+    params.require(:time_slot).permit(:starts_at, :ends_at, :status, :memo, :guide_id)
   end
 end

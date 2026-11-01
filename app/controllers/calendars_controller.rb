@@ -7,7 +7,7 @@ class CalendarsController < ApplicationController
     range = @month.beginning_of_month.beginning_of_week(:sunday)..@month.end_of_month.end_of_week(:sunday)
     @dates = range.to_a
 
-    time_slots = TimeSlot.includes(:activity)
+    time_slots = TimeSlot.includes(:activity, :guide)
                          .where(starts_at: range.first.beginning_of_day..range.last.end_of_day)
                          .order(:starts_at)
     time_slots = time_slots.where(activity: @activity) if @activity

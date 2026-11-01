@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_10_26_000000) do
+ActiveRecord::Schema[7.2].define(version: 2026_10_31_000001) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -45,8 +45,6 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_26_000000) do
     t.integer "duration_minutes", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "guide_id"
-    t.index ["guide_id"], name: "index_activities_on_guide_id"
   end
 
   create_table "favorites", force: :cascade do |t|
@@ -78,8 +76,10 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_26_000000) do
     t.text "memo"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "guide_id"
     t.index ["activity_id", "starts_at"], name: "index_time_slots_on_activity_id_and_starts_at"
     t.index ["activity_id"], name: "index_time_slots_on_activity_id"
+    t.index ["guide_id"], name: "index_time_slots_on_guide_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -99,9 +99,9 @@ ActiveRecord::Schema[7.2].define(version: 2026_10_26_000000) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "activities", "users", column: "guide_id"
   add_foreign_key "favorites", "activities"
   add_foreign_key "favorites", "users"
   add_foreign_key "participants", "time_slots"
   add_foreign_key "time_slots", "activities"
+  add_foreign_key "time_slots", "users", column: "guide_id"
 end

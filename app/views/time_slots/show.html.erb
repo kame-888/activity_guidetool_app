@@ -3,6 +3,7 @@
   <%= l @time_slot.starts_at, format: :long %> 〜 <%= l @time_slot.ends_at, format: :short %>
   <span class="badge bg-secondary"><%= TimeSlot.human_attribute_name("status.#{@time_slot.status}") %></span>
 </p>
+<p>担当ガイド：<%= @time_slot.guide&.full_name || "未割り当て" %></p>
 <%= simple_format(@time_slot.memo) %>
 
 <div class="d-flex justify-content-between align-items-center mt-4">
