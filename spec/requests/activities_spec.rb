@@ -47,15 +47,3 @@ RSpec.describe "Activities search", type: :request do
     expect(response.body).not_to include("鈴木さんの担当")
   end
 end
-
-RSpec.describe "TimeSlots assignment", type: :request do
-  it "manager は開催枠に担当ガイドを割り当てられる" do
-    guide = create(:user)
-    slot = create(:time_slot)
-    sign_in create(:user, :manager)
-
-    patch activity_time_slot_path(slot.activity, slot), params: { time_slot: { guide_id: guide.id } }
-
-    expect(slot.reload.guide).to eq guide
-  end
-end

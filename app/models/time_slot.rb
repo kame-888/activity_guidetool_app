@@ -6,6 +6,7 @@ class TimeSlot < ApplicationRecord
   has_many :participants, dependent: :destroy
 
   scope :with_caution, -> { where(id: Participant.with_caution.select(:time_slot_id)) }
+  scope :upcoming, -> { where(starts_at: Time.zone.now.beginning_of_day..) }
 
   before_validation :set_default_ends_at
 

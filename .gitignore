@@ -35,5 +35,8 @@
 /config/master.key
 
 # Ignore the production test compose file.
-docker-compose.prod-test.ymlcookie.txt
+docker-compose.prod-test.yml
+
+cookie.txt
 paths.txt
+cleanup/

@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   resource :calendar, only: :show
 
   resources :time_slots, only: :show do
+    get :mine, on: :collection
     resources :participants, except: %i[index show]
   end
 
