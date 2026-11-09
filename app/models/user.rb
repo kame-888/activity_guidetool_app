@@ -4,8 +4,6 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  has_one_attached :avatar
-
   has_many :favorites, dependent: :destroy
   has_many :favorite_activities, through: :favorites, source: :activity
   has_many :assigned_time_slots, class_name: "TimeSlot", foreign_key: :guide_id,
@@ -15,15 +13,5 @@ class User < ApplicationRecord
 
   def full_name
     "#{last_name} #{first_name}"
-  end
-
-  private
-
-  def self.ransackable_attributes(_auth_object = nil)
-    %w[title genre]
-  end
-
-  def self.ransackable_associations(_auth_object = nil)
-    %w[time_slots]
   end
 end
