@@ -22,19 +22,6 @@
             </div>
 
             <div class="mb-3">
-              <%= f.label :avatar, "アイコン用画像", class: "form-label" %>
-              <% if resource.avatar.attached? %>
-                <div class="mb-2">
-                  <%= image_tag resource.avatar,
-                      class: "rounded-circle border object-fit-cover",
-                      style: "width: 80px; height: 80px;",
-                      alt: "現在のアイコン" %>
-                </div>
-             <% end %>
-             <%= f.file_field :avatar, class: "form-control", accept: "image/*" %>
-            </div>
-
-            <div class="mb-3">
               <%= f.label :email, "メール", class: "form-label" %>
               <%= f.email_field :email, class: "form-control", autofocus: true, autocomplete: "email" %>
             </div>

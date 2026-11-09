@@ -14,7 +14,7 @@
 
 | 権限 | メールアドレス | パスワード | できること |
 |---|---|---|---|
-| ガイド | guide@example.com | password | 閲覧のみ |
+| ガイド | guide@example.com | password | 閲覧、お気に入り、「自分の担当」ページ |
 | 管理者 | manager@example.com | メッセージで共有 | 登録・編集・削除 |
 
 ## 制作背景
@@ -37,10 +37,8 @@
 - 検索(タイトル・ジャンル・開催日)とページネーション
 - お気に入り(Turbo による画面遷移なしの切り替え)
 - スマホ対応のレスポンシブデザイン
-- アクティビティごとの担当ガイドの設定・表示
 - 開催枠ごとの担当ガイドの割り当てと、自分の担当枠だけを表示する「自分の担当」ページ
 - 開催枠のカレンダー表示(注意事項ありの枠を色分け)
-- GitHub Actions による自動デプロイ(OIDC 認証)
 
 | ホーム | アクティビティの開催枠一覧 | 開催枠の詳細 | カレンダー表示 | スマホホーム表示 | スマホカレンダー表示 |
 |---|---|---|---|---|---|
@@ -49,7 +47,7 @@
 ## 工夫した点
 
 - **1行を1人にした参加者テーブル**:注意事項を1人ごとに持たせ、「誰が何に注意が必要か」を明確にしました
-- **権限チェックをサーバー側で実施**:ボタンの表示を切り替えるだけでなく、URL の直打ちでも弾かれます
+- **権限チェックをサーバー側で実施**:登録・編集・削除は、ボタンの表示を切り替えるだけでなく、URL の直打ちでも、管理者以外は弾かれます
 - **Ransack の許可リスト**:検索できるカラムと関連を、モデルで明示的に許可しています
 - **お気に入りの重複防止**:モデルのバリデーションと DB のユニーク制約の両方で防いでいます
 - **テストと CI**:モデル・権限のテストを RSpec で書き、GitHub Actions で rubocop・brakeman・RSpec を自動実行しています
@@ -57,6 +55,7 @@
 - **秘密情報の管理**:`RAILS_MASTER_KEY` や `DATABASE_URL` はコードに含めず、Parameter Store から実行時に注入しています
 - **再起動しても壊れない seeds**:本番ではデータが空のときだけデモデータを投入し、タスクが再起動しても重複や消去が起きないようにしています
 - **ヘルスチェック**:Rails 標準の `/up` を使い、ALB が異常なタスクを自動で切り離します
+- **自動デプロイ**:CI が成功した `main` からだけ、ECR への push と ECS の更新を自動化。AWS の認証は OIDC で、長期のアクセスキーを持たない
 
 ## 使用技術
 
@@ -67,7 +66,7 @@
 | フロント | Bootstrap 5 / Hotwire(Turbo, Stimulus) |
 | 主な gem | Devise / Ransack / Kaminari / Bullet |
 | テスト | RSpec / FactoryBot / shoulda-matchers |
-| CI | GitHub Actions |
+| CI/CD | GitHub Actions(CI、ECS への自動デプロイ) |
 | インフラ | AWS（ECS Fargate / ECR / RDS for PostgreSQL / ALB / Systems Manager Parameter Store / CloudWatch Logs）、Docker |
 
 ## インフラ構成
@@ -89,7 +88,7 @@ flowchart LR
 ```mermaid
 erDiagram
     users ||--o{ favorites : "お気に入り"
-    users |o--o{ time_slots : "担当"
+    users |o--o{ time_slots : "担当(開催枠)"
     activities ||--o{ favorites : "登録される"
     activities ||--o{ time_slots : "開催枠"
     time_slots ||--o{ participants : "参加者"
@@ -159,6 +158,7 @@ bundle exec rspec
 
 ## 今後の改善案
 
+- 担当外の開催枠の詳細(参加者の注意事項)の閲覧制限(現在は、URLを直接開くと閲覧できる)
 - 同じガイドの時間が重なる枠への割り当て警告
 - 注意事項を複数登録できるようにする(`cautions` テーブルの分離)
 - 天候による催行判断の記録
